@@ -91,6 +91,20 @@ export function AppShell() {
             onChange={setSelectedScaleId}
             testId="scale-select"
           />
+        </div>
+
+        <div
+          {...stylex.props(appShellStyles.sectionHeading)}
+          style={{
+            marginTop: "18px",
+          }}
+        >
+          <div>
+            <h2 {...stylex.props(appShellStyles.sectionTitle)}>Chordtone</h2>
+          </div>
+        </div>
+
+        <div {...stylex.props(appShellStyles.topGrid)}>
           <AppSelect
             label="Chord Root"
             value={selectedChordRootId}

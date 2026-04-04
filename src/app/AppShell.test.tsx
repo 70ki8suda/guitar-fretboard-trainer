@@ -12,6 +12,7 @@ describe("AppShell", () => {
     expect(screen.getByRole("button", { name: "Scale" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Chord" })).toBeTruthy();
     expect(screen.getByRole("button", { name: /both/i })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Chordtone", level: 2 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Fretboard", level: 2 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Scale summary", level: 2 })).toBeTruthy();
     expect(screen.queryByRole("heading", { name: "Legend", level: 2 })).toBeNull();
@@ -24,7 +25,7 @@ describe("AppShell", () => {
       new Set(screen.getAllByRole("heading", { level: 2 }).map((element) => element.textContent)),
     );
 
-    expect(headings).toEqual(["Key and scale", "Fretboard", "Scale summary"]);
+    expect(headings).toEqual(["Key and scale", "Chordtone", "Fretboard", "Scale summary"]);
   });
 
   it("updates the selected key and scale in visible output immediately", () => {
