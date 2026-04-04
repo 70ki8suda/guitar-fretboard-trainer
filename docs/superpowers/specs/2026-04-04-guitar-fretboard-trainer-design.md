@@ -300,6 +300,53 @@ For v1, only degree labels that appear in the selected scale need to be material
 - active markers must remain readable even when the neck is dense
 - colors cannot be the only source of meaning; the text label is also required
 
+## UI Direction
+
+The visual direction for v1 should follow the `Nodex composer` light-theme family, especially the `solar` atmosphere.
+
+Target feeling:
+
+- precision tool in daylight
+- engineered, not playful
+- luminous, but restrained
+- synth-inspired color atmosphere rather than generic educational-app brightness
+
+### Visual Principles
+
+- use a warm-neutral canvas with cool atmospheric gradients, not flat white
+- use translucent layered panels with thin quiet borders
+- keep depth soft and diffused rather than heavy
+- let cyan and amber act as signal accents, not dominant brand paint
+- keep decorative elements peripheral and never inside dense control zones
+
+### Typography Direction
+
+- primary UI text and headings should use a confident contemporary grotesk style aligned with `Space Grotesk`
+- metadata, degree labels, fret numbers, legend labels, and technical annotations should use a mono accent style aligned with `IBM Plex Mono`
+- typography should feel authoritative and measured, not casual
+
+### Fretboard Styling Direction
+
+- the fretboard should not imitate photoreal wood
+- treat the neck as a precision instrument panel built from measured slots, thin separators, and calm optical depth
+- inactive positions should be visually subdued rather than fully hidden, so the fret grid remains legible
+- active markers should appear optically lifted from the surface with restrained glow and clear internal hierarchy
+- within each marker, degree is the primary line and movable-do is the secondary line
+
+### Color Atmosphere
+
+- the overall page should inherit `solar`-like daylight gradients: warm horizon tones balanced by cool cyan diffusion
+- panel surfaces should remain bright enough for clarity without becoming plain white cards
+- degree colors may vary by interval for learning purposes, but they must still sit inside the wider Nodex light-theme atmosphere
+- accent cyan and accent amber should be used for controls, focus states, and small emphasis signals
+
+### Layout Tone
+
+- the app should feel modular and panel-based
+- controls should live in a crisp top control surface
+- legend and supplemental scale information should read like instrument readouts, not decorative widgets
+- spacing and corner radius should stay disciplined and slightly tense rather than soft and bubbly
+
 ## Technical Design
 
 ### Stack
