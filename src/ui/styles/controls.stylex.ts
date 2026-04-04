@@ -255,7 +255,7 @@ export const controlStyles = stylex.create({
   },
   summaryItem: {
     display: "grid",
-    gridTemplateColumns: "minmax(0, 1fr) auto",
+    gridTemplateColumns: "minmax(0, 1fr)",
     alignItems: "center",
     gap: "12px",
     minHeight: "40px",
@@ -277,12 +277,5 @@ export const controlStyles = stylex.create({
     letterSpacing: "0.12em",
     textTransform: "uppercase",
     color: lightThemeTokens.textSubtle,
-  },
-  summaryMeta: {
-    fontFamily: lightThemeTokens.fontMono,
-    fontSize: "11px",
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-    color: lightThemeTokens.textKicker,
   },
 });

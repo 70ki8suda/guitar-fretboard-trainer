@@ -29,7 +29,6 @@ export function ScaleSummary({ keyLabel, scaleLabel, tones }: ScaleSummaryProps)
               <span {...stylex.props(controlStyles.summaryDegree)}>{tone.degreeLabel}</span>
               <span {...stylex.props(controlStyles.summarySolfege)}>{tone.solfegeLabel}</span>
             </span>
-            <span {...stylex.props(controlStyles.summaryMeta)}>{tone.colorToken}</span>
           </li>
         ))}
       </ul>
