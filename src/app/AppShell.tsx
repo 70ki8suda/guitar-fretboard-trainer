@@ -57,41 +57,6 @@ export function AppShell() {
             </p>
           </div>
         </section>
-
-        <section
-          {...stylex.props(controlStyles.summaryCard)}
-          style={{
-            marginTop: "18px",
-          }}
-        >
-          <div {...stylex.props(appShellStyles.sectionHeading)}>
-            <div>
-              <p {...stylex.props(appShellStyles.eyebrow)}>Selected state</p>
-              <h2 {...stylex.props(appShellStyles.sectionTitle)}>Header summary</h2>
-            </div>
-          </div>
-          <p {...stylex.props(controlStyles.cardBody)}>
-            {selectedKeyId} {selectedScaleLabel}
-          </p>
-          <div {...stylex.props(controlStyles.summaryList)}>
-            <div {...stylex.props(controlStyles.summaryItem)}>
-              <span {...stylex.props(controlStyles.summaryTone)}>
-                <span {...stylex.props(controlStyles.summaryDegree)}>Selected key</span>
-                <span {...stylex.props(controlStyles.summarySolfege)}>{selectedKeyId}</span>
-              </span>
-              <span {...stylex.props(controlStyles.summaryMeta)}>
-                {selectedKey.accidentalPolicy}
-              </span>
-            </div>
-            <div {...stylex.props(controlStyles.summaryItem)}>
-              <span {...stylex.props(controlStyles.summaryTone)}>
-                <span {...stylex.props(controlStyles.summaryDegree)}>Selected scale</span>
-                <span {...stylex.props(controlStyles.summarySolfege)}>{selectedScaleLabel}</span>
-              </span>
-              <span {...stylex.props(controlStyles.summaryMeta)}>{selectedScale.id}</span>
-            </div>
-          </div>
-        </section>
       </header>
 
       <section {...stylex.props(controlStyles.controlSurface, appShellStyles.sectionBlock)}>
