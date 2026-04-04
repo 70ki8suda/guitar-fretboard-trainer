@@ -6,9 +6,11 @@ export const appShellStyles = stylex.create({
   appShell: {
     minHeight: "100vh",
     display: "grid",
-    gridTemplateColumns: "360px minmax(0, 1fr)",
+    gridTemplateColumns: "minmax(0, 1fr)",
     gap: "24px",
     padding: "24px",
+    maxWidth: "1680px",
+    margin: "0 auto",
     width: "100%",
     boxSizing: "border-box",
     color: colorVars.textPrimary,
@@ -17,27 +19,23 @@ export const appShellStyles = stylex.create({
     backgroundImage:
       "radial-gradient(circle at 0% 0%, rgba(46, 142, 163, 0.14), transparent 32%), radial-gradient(circle at 100% 0%, rgba(213, 108, 37, 0.14), transparent 28%), linear-gradient(145deg, #f1e5d5 0%, #f7eddc 52%, #ead8c3 100%)",
     "@media (max-width: 1080px)": {
-      gridTemplateColumns: "1fr",
       padding: "18px",
     },
   },
-  sidebar: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    minWidth: 0,
-  },
-  workspace: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "24px",
-    minWidth: 0,
-  },
   topGrid: {
     display: "grid",
-    gridTemplateColumns: "minmax(0, 1.35fr) minmax(320px, 0.65fr)",
+    gridTemplateColumns: "repeat(2, minmax(0, 320px))",
+    gap: "18px",
+    "@media (max-width: 840px)": {
+      gridTemplateColumns: "1fr",
+    },
+  },
+  supportGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
     gap: "24px",
-    "@media (max-width: 1280px)": {
+    alignItems: "start",
+    "@media (max-width: 980px)": {
       gridTemplateColumns: "1fr",
     },
   },

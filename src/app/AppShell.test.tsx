@@ -20,6 +20,22 @@ describe("AppShell", () => {
     expect(screen.getByRole("heading", { name: "Scale summary", level: 2 })).toBeTruthy();
   });
 
+  it("prioritizes the fretboard in a single-column flow", () => {
+    render(<AppShell />);
+
+    const headings = Array.from(
+      new Set(screen.getAllByRole("heading", { level: 2 }).map((element) => element.textContent)),
+    );
+
+    expect(headings).toEqual([
+      "Header summary",
+      "Key and scale",
+      "Fretboard",
+      "Legend",
+      "Scale summary",
+    ]);
+  });
+
   it("updates the selected key and scale in visible output immediately", () => {
     render(<AppShell />);
 
