@@ -255,7 +255,7 @@ export const controlStyles = stylex.create({
   },
   summaryItem: {
     display: "grid",
-    gridTemplateColumns: "minmax(0, 1fr)",
+    gridTemplateColumns: "auto minmax(0, 1fr)",
     alignItems: "center",
     gap: "12px",
     minHeight: "40px",
@@ -266,6 +266,12 @@ export const controlStyles = stylex.create({
   summaryTone: {
     display: "grid",
     gap: "2px",
+  },
+  summarySwatch: {
+    width: "12px",
+    height: "12px",
+    borderRadius: "999px",
+    boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.26)",
   },
   summaryDegree: {
     fontSize: "14px",

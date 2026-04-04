@@ -2,7 +2,6 @@ import * as stylex from "@stylexjs/stylex";
 
 import { useFretboardAppState } from "./useFretboardAppState";
 import { AppSelect } from "../ui/components/AppSelect";
-import { Legend } from "../ui/components/Legend";
 import { ScaleSummary } from "../ui/components/ScaleSummary";
 import { appShellStyles } from "../ui/styles/appShell.stylex";
 import { controlStyles } from "../ui/styles/controls.stylex";
@@ -31,7 +30,6 @@ export function AppShell() {
     selectedScale,
     keyOptions,
     scaleOptions,
-    legendEntries,
     summaryEntries,
     setSelectedKeyId,
     setSelectedScaleId,
@@ -141,14 +139,11 @@ export function AppShell() {
 
       <Fretboard selectedKey={selectedKey} selectedScale={selectedScale} />
 
-      <div {...stylex.props(appShellStyles.supportGrid)}>
-        <Legend tones={legendEntries} />
-        <ScaleSummary
-          keyLabel={selectedKeyId}
-          scaleLabel={selectedScaleLabel}
-          tones={summaryEntries}
-        />
-      </div>
+      <ScaleSummary
+        keyLabel={selectedKeyId}
+        scaleLabel={selectedScaleLabel}
+        tones={summaryEntries}
+      />
     </div>
   );
 }

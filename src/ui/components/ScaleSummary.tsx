@@ -1,5 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
+import { getDegreeColor } from "../../music/colors";
 import type { ActiveTone } from "../../music/fretboard";
 import { controlStyles } from "../styles/controls.stylex";
 
@@ -25,6 +26,12 @@ export function ScaleSummary({ keyLabel, scaleLabel, tones }: ScaleSummaryProps)
             key={`${tone.degreeLabel}-${tone.pitchClass}`}
             {...stylex.props(controlStyles.summaryItem)}
           >
+            <span
+              aria-hidden="true"
+              data-tone-swatch=""
+              {...stylex.props(controlStyles.summarySwatch)}
+              style={{ backgroundColor: getDegreeColor(tone.degreeLabel).hex }}
+            />
             <span {...stylex.props(controlStyles.summaryTone)}>
               <span {...stylex.props(controlStyles.summaryDegree)}>{tone.degreeLabel}</span>
               <span {...stylex.props(controlStyles.summarySolfege)}>{tone.solfegeLabel}</span>

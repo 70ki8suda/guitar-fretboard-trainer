@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { AppShell } from "./AppShell";
 
 describe("AppShell", () => {
-  it("renders the shell with controls, fretboard, legend, and summaries", () => {
+  it("renders the shell with controls, fretboard, and summaries", () => {
     render(<AppShell />);
 
     expect(screen.getByRole("banner", { name: /app header/i })).toBeTruthy();
@@ -12,9 +12,9 @@ describe("AppShell", () => {
     expect(screen.getByRole("button", { name: /scale tones/i })).toBeTruthy();
     expect(screen.getByRole("button", { name: /chord tones/i })).toBeTruthy();
     expect(screen.getByRole("button", { name: /both/i })).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "Legend", level: 2 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Fretboard", level: 2 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Scale summary", level: 2 })).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "Legend", level: 2 })).toBeNull();
   });
 
   it("prioritizes the fretboard in a single-column flow", () => {
@@ -24,7 +24,7 @@ describe("AppShell", () => {
       new Set(screen.getAllByRole("heading", { level: 2 }).map((element) => element.textContent)),
     );
 
-    expect(headings).toEqual(["Key and scale", "Fretboard", "Legend", "Scale summary"]);
+    expect(headings).toEqual(["Key and scale", "Fretboard", "Scale summary"]);
   });
 
   it("updates the selected key and scale in visible output immediately", () => {
@@ -54,5 +54,12 @@ describe("AppShell", () => {
       "String 5",
       "String 6",
     ]);
+  });
+
+  it("shows color swatches inside the scale summary", () => {
+    render(<AppShell />);
+
+    const summary = screen.getAllByRole("region", { name: /scale summary/i })[0];
+    expect(summary.querySelectorAll("[data-tone-swatch]").length).toBeGreaterThan(0);
   });
 });
