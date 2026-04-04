@@ -28,57 +28,32 @@ const degreeAliases: Record<string, SolfegeDegreeLabel> = {
   "#5 / b6": "b6",
 };
 
-const solfegeTable: Record<AccidentalPolicy, Record<SolfegeDegreeLabel, string>> = {
+const fixedDegreeSolfegeTable: Partial<Record<SolfegeDegreeLabel, string>> = {
+  "1": "Do",
+  b2: "Ra",
+  "b2 / #1": "Ra",
+  "2": "Re",
+  b3: "Me",
+  "b3 / #2": "Me",
+  "3": "Mi",
+  "4": "Fa",
+  "5": "So",
+  b6: "Le",
+  "b6 / #5": "Le",
+  "6": "La",
+  b7: "Te",
+  "7": "Ti",
+};
+
+const alteredSolfegeTable: Record<AccidentalPolicy, Partial<Record<SolfegeDegreeLabel, string>>> = {
   sharp: {
-    "1": "Do",
-    b2: "Di",
-    "b2 / #1": "Di",
-    "2": "Re",
-    b3: "Ri",
-    "b3 / #2": "Ri",
-    "3": "Mi",
-    "4": "Fa",
     "#4 / b5": "Fi",
-    "5": "So",
-    b6: "Si",
-    "b6 / #5": "Si",
-    "6": "La",
-    b7: "Li",
-    "7": "Ti",
   },
   flat: {
-    "1": "Do",
-    b2: "Ra",
-    "b2 / #1": "Ra",
-    "2": "Re",
-    b3: "Me",
-    "b3 / #2": "Me",
-    "3": "Mi",
-    "4": "Fa",
     "#4 / b5": "Se",
-    "5": "So",
-    b6: "Le",
-    "b6 / #5": "Le",
-    "6": "La",
-    b7: "Te",
-    "7": "Ti",
   },
   natural: {
-    "1": "Do",
-    b2: "Di",
-    "b2 / #1": "Di",
-    "2": "Re",
-    b3: "Ri",
-    "b3 / #2": "Ri",
-    "3": "Mi",
-    "4": "Fa",
     "#4 / b5": "Fi",
-    "5": "So",
-    b6: "Si",
-    "b6 / #5": "Si",
-    "6": "La",
-    b7: "Li",
-    "7": "Ti",
   },
 };
 
@@ -87,5 +62,9 @@ export function getSolfegeLabel(degreeLabel: string, accidentalPolicy: Accidenta
     ? degreeAliases[degreeLabel]
     : (degreeLabel as SolfegeDegreeLabel);
 
-  return solfegeTable[accidentalPolicy][canonicalDegreeLabel];
+  return (
+    fixedDegreeSolfegeTable[canonicalDegreeLabel] ??
+    alteredSolfegeTable[accidentalPolicy][canonicalDegreeLabel] ??
+    ""
+  );
 }

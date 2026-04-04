@@ -6,12 +6,11 @@ describe("getSolfegeLabel", () => {
     expect(getSolfegeLabel("6", "natural")).toBe("La");
   });
 
-  it("uses flat-form syllables in flat keys", () => {
+  it("uses flat-form syllables for lowered scale degrees", () => {
     expect(getSolfegeLabel("b7", "flat")).toBe("Te");
-  });
-
-  it("uses sharp-form syllables in sharp keys", () => {
-    expect(getSolfegeLabel("b7", "sharp")).toBe("Li");
+    expect(getSolfegeLabel("b7", "sharp")).toBe("Te");
+    expect(getSolfegeLabel("b3", "natural")).toBe("Me");
+    expect(getSolfegeLabel("b6", "sharp")).toBe("Le");
   });
 
   it("maps the documented degree table deterministically", () => {
