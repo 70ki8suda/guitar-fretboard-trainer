@@ -355,6 +355,7 @@ Target feeling:
 - TypeScript
 - Vite+ CLI, the official unified toolchain from `viteplus.dev`
 - pnpm
+- StyleX for component-scoped styling and tokenized visual implementation
 - Vite under the hood for app dev/build, with the Vite+ `vp` command as the repo workflow entrypoint
 - repo-standard workflow commands: `vp install`, `vp dev`, `vp check`, `vp build`, `vp test`
 
@@ -370,6 +371,7 @@ Responsibilities:
 - rendering the legend
 - rendering the fretboard grid
 - formatting the selected-state summary
+- applying visual tokens and component styles through StyleX
 
 The UI layer should not directly encode note-spelling logic or scale membership rules.
 
@@ -406,6 +408,9 @@ This layer should expose pure functions so it can be tested without React render
 
 - `src/ui/`
   Contains React components for controls, legend, markers, and fretboard layout.
+
+- `src/ui/styles/`
+  Contains shared StyleX tokens and style recipes for panels, controls, markers, and layout shells.
 
 ### Core Function Contracts
 
