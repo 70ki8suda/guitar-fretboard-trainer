@@ -24,27 +24,28 @@ export type AccidentalPolicy = 'sharp' | 'flat' | 'natural'
 
 export type SelectedKey = {
   id: KeyId
+  tonicPitchClass: number
   accidentalPolicy: AccidentalPolicy
 }
 
 const keyMap: Record<KeyId, SelectedKey> = {
-  C: { id: 'C', accidentalPolicy: 'natural' },
-  'C#': { id: 'C#', accidentalPolicy: 'sharp' },
-  Db: { id: 'Db', accidentalPolicy: 'flat' },
-  D: { id: 'D', accidentalPolicy: 'sharp' },
-  'D#': { id: 'D#', accidentalPolicy: 'sharp' },
-  Eb: { id: 'Eb', accidentalPolicy: 'flat' },
-  E: { id: 'E', accidentalPolicy: 'sharp' },
-  F: { id: 'F', accidentalPolicy: 'flat' },
-  'F#': { id: 'F#', accidentalPolicy: 'sharp' },
-  Gb: { id: 'Gb', accidentalPolicy: 'flat' },
-  G: { id: 'G', accidentalPolicy: 'sharp' },
-  'G#': { id: 'G#', accidentalPolicy: 'sharp' },
-  Ab: { id: 'Ab', accidentalPolicy: 'flat' },
-  A: { id: 'A', accidentalPolicy: 'sharp' },
-  'A#': { id: 'A#', accidentalPolicy: 'sharp' },
-  Bb: { id: 'Bb', accidentalPolicy: 'flat' },
-  B: { id: 'B', accidentalPolicy: 'sharp' },
+  C: { id: 'C', tonicPitchClass: 0, accidentalPolicy: 'natural' },
+  'C#': { id: 'C#', tonicPitchClass: 1, accidentalPolicy: 'sharp' },
+  Db: { id: 'Db', tonicPitchClass: 1, accidentalPolicy: 'flat' },
+  D: { id: 'D', tonicPitchClass: 2, accidentalPolicy: 'sharp' },
+  'D#': { id: 'D#', tonicPitchClass: 3, accidentalPolicy: 'sharp' },
+  Eb: { id: 'Eb', tonicPitchClass: 3, accidentalPolicy: 'flat' },
+  E: { id: 'E', tonicPitchClass: 4, accidentalPolicy: 'sharp' },
+  F: { id: 'F', tonicPitchClass: 5, accidentalPolicy: 'flat' },
+  'F#': { id: 'F#', tonicPitchClass: 6, accidentalPolicy: 'sharp' },
+  Gb: { id: 'Gb', tonicPitchClass: 6, accidentalPolicy: 'flat' },
+  G: { id: 'G', tonicPitchClass: 7, accidentalPolicy: 'sharp' },
+  'G#': { id: 'G#', tonicPitchClass: 8, accidentalPolicy: 'sharp' },
+  Ab: { id: 'Ab', tonicPitchClass: 8, accidentalPolicy: 'flat' },
+  A: { id: 'A', tonicPitchClass: 9, accidentalPolicy: 'sharp' },
+  'A#': { id: 'A#', tonicPitchClass: 10, accidentalPolicy: 'sharp' },
+  Bb: { id: 'Bb', tonicPitchClass: 10, accidentalPolicy: 'flat' },
+  B: { id: 'B', tonicPitchClass: 11, accidentalPolicy: 'sharp' },
 }
 
 export function getSelectedKey(keyId: KeyId | string | null | undefined): SelectedKey {

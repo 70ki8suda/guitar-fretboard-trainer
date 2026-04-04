@@ -40,4 +40,13 @@ describe('getScaleDefinition', () => {
       expect(scale.degreeLabels).toHaveLength(scale.intervals.length)
     })
   })
+
+  it('falls back to major for invalid serialized scale input', () => {
+    expect(getScaleDefinition('not-a-scale' as never)).toMatchObject({
+      id: 'major',
+      intervals: [0, 2, 4, 5, 7, 9, 11],
+      degreeLabels: ['1', '2', '3', '4', '5', '6', '7'],
+      chordToneMask: [true, false, true, false, true, false, true],
+    })
+  })
 })

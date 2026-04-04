@@ -24,29 +24,29 @@ describe('getSelectedKey', () => {
         ['B', 'sharp'],
       ].map(([keyId]) => getSelectedKey(keyId as never)),
     ).toMatchObject([
-      { id: 'C', accidentalPolicy: 'natural' },
-      { id: 'C#', accidentalPolicy: 'sharp' },
-      { id: 'Db', accidentalPolicy: 'flat' },
-      { id: 'D', accidentalPolicy: 'sharp' },
-      { id: 'D#', accidentalPolicy: 'sharp' },
-      { id: 'Eb', accidentalPolicy: 'flat' },
-      { id: 'E', accidentalPolicy: 'sharp' },
-      { id: 'F', accidentalPolicy: 'flat' },
-      { id: 'F#', accidentalPolicy: 'sharp' },
-      { id: 'Gb', accidentalPolicy: 'flat' },
-      { id: 'G', accidentalPolicy: 'sharp' },
-      { id: 'G#', accidentalPolicy: 'sharp' },
-      { id: 'Ab', accidentalPolicy: 'flat' },
-      { id: 'A', accidentalPolicy: 'sharp' },
-      { id: 'A#', accidentalPolicy: 'sharp' },
-      { id: 'Bb', accidentalPolicy: 'flat' },
-      { id: 'B', accidentalPolicy: 'sharp' },
+      { id: 'C', tonicPitchClass: 0, accidentalPolicy: 'natural' },
+      { id: 'C#', tonicPitchClass: 1, accidentalPolicy: 'sharp' },
+      { id: 'Db', tonicPitchClass: 1, accidentalPolicy: 'flat' },
+      { id: 'D', tonicPitchClass: 2, accidentalPolicy: 'sharp' },
+      { id: 'D#', tonicPitchClass: 3, accidentalPolicy: 'sharp' },
+      { id: 'Eb', tonicPitchClass: 3, accidentalPolicy: 'flat' },
+      { id: 'E', tonicPitchClass: 4, accidentalPolicy: 'sharp' },
+      { id: 'F', tonicPitchClass: 5, accidentalPolicy: 'flat' },
+      { id: 'F#', tonicPitchClass: 6, accidentalPolicy: 'sharp' },
+      { id: 'Gb', tonicPitchClass: 6, accidentalPolicy: 'flat' },
+      { id: 'G', tonicPitchClass: 7, accidentalPolicy: 'sharp' },
+      { id: 'G#', tonicPitchClass: 8, accidentalPolicy: 'sharp' },
+      { id: 'Ab', tonicPitchClass: 8, accidentalPolicy: 'flat' },
+      { id: 'A', tonicPitchClass: 9, accidentalPolicy: 'sharp' },
+      { id: 'A#', tonicPitchClass: 10, accidentalPolicy: 'sharp' },
+      { id: 'Bb', tonicPitchClass: 10, accidentalPolicy: 'flat' },
+      { id: 'B', tonicPitchClass: 11, accidentalPolicy: 'sharp' },
     ])
   })
 
   it('keeps C# and Db as separate keys with different policies', () => {
-    expect(getSelectedKey('C#').accidentalPolicy).toBe('sharp')
-    expect(getSelectedKey('Db').accidentalPolicy).toBe('flat')
+    expect(getSelectedKey('C#')).toMatchObject({ id: 'C#', tonicPitchClass: 1, accidentalPolicy: 'sharp' })
+    expect(getSelectedKey('Db')).toMatchObject({ id: 'Db', tonicPitchClass: 1, accidentalPolicy: 'flat' })
   })
 
   it('falls back to C for unsupported values', () => {

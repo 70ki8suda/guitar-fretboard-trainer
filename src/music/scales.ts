@@ -36,6 +36,10 @@ const scaleMap: Record<ScaleId, ScaleDefinition> = {
   },
 }
 
-export function getScaleDefinition(scaleId: ScaleId): ScaleDefinition {
-  return scaleMap[scaleId]
+export function getScaleDefinition(scaleId: ScaleId | string | null | undefined): ScaleDefinition {
+  if (typeof scaleId === 'string' && scaleId in scaleMap) {
+    return scaleMap[scaleId as ScaleId]
+  }
+
+  return scaleMap.major
 }
