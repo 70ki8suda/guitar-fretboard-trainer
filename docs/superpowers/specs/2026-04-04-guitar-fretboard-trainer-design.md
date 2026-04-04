@@ -130,6 +130,13 @@ Each scale definition must include:
 - enough metadata to support future chord-tone filtering
 - a stable boolean mask for future chord-tone candidate tagging
 
+`chordToneMask` contract for v1:
+
+- it has the same length and ordering as `intervals` and `degreeLabels`
+- each index answers whether that scale tone should be treated as a chord-tone candidate in future filters
+- it is not a 12-step chromatic mask
+- v1 does not render chord tones yet, but the data contract must be stable
+
 v1 scale definitions:
 
 | Scale | Semitone Intervals | Degree Labels | Marker Labels |
@@ -299,9 +306,10 @@ For v1, only degree labels that appear in the selected scale need to be material
 
 - React
 - TypeScript
-- Vite+
+- Vite+ CLI, the official unified toolchain from `viteplus.dev`
 - pnpm
-- Vite+ built-in workflow commands: `vp install`, `vp dev`, `vp check`, `vp build`, `vp test`
+- Vite under the hood for app dev/build, with the Vite+ `vp` command as the repo workflow entrypoint
+- repo-standard workflow commands: `vp install`, `vp dev`, `vp check`, `vp build`, `vp test`
 
 ### Layered Architecture
 
@@ -417,6 +425,7 @@ type FretPositionDisplay = {
   stringIndex: number
   fret: number
   pitchClass: number
+  isValidPosition: boolean
   inScale: boolean
   degreeLabel?: string
   solfegeLabel?: string
@@ -448,7 +457,7 @@ Required fallback behavior:
 
 - unsupported key ID: fall back to `C`
 - unsupported scale ID: fall back to `major`
-- invalid string index or fret outside `0-21`: return an inactive display object and do not throw in UI render paths
+- invalid string index or fret outside `0-21`: return a display object with `isValidPosition: false`, `inScale: false`, and no labels; do not throw in UI render paths
 
 v1 does not need a dedicated error screen for invalid selections; safe fallback behavior is sufficient.
 
