@@ -1,0 +1,141 @@
+import * as stylex from "@stylexjs/stylex";
+
+import { lightShadowTokens, lightThemeTokens } from "./tokens.stylex";
+
+export const fretboardStyles = stylex.create({
+  panel: {
+    display: "grid",
+    gap: "18px",
+    padding: "20px",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: lightThemeTokens.borderSubtle,
+    borderRadius: "24px",
+    backgroundColor: lightThemeTokens.surfaceOverlayStrong,
+    boxShadow: lightShadowTokens.panel,
+    backdropFilter: "blur(18px)",
+  },
+  panelHeader: {
+    display: "grid",
+    gap: "4px",
+  },
+  panelTitle: {
+    margin: 0,
+    fontSize: "18px",
+    lineHeight: 1.15,
+    color: lightThemeTokens.textStrong,
+  },
+  panelBody: {
+    margin: 0,
+    fontSize: "13px",
+    lineHeight: 1.45,
+    color: lightThemeTokens.textMuted,
+  },
+  boardWrap: {
+    overflowX: "auto",
+    paddingBottom: "4px",
+  },
+  board: {
+    display: "grid",
+    gap: "10px",
+    minWidth: "calc(88px + (22 * 48px))",
+  },
+  fretHeaderRow: {
+    display: "grid",
+    gridTemplateColumns: "88px repeat(22, minmax(44px, 1fr))",
+    gap: "8px",
+    alignItems: "center",
+  },
+  fretHeaderSpacer: {
+    minHeight: "24px",
+  },
+  fretHeader: {
+    display: "grid",
+    placeItems: "center",
+    minHeight: "24px",
+    borderRadius: "999px",
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "11px",
+    letterSpacing: "0.12em",
+    color: lightThemeTokens.textKicker,
+    backgroundColor: lightThemeTokens.surfaceGhost,
+  },
+  stringRow: {
+    display: "grid",
+    gridTemplateColumns: "88px repeat(22, minmax(44px, 1fr))",
+    gap: "8px",
+    alignItems: "stretch",
+  },
+  stringLabel: {
+    display: "grid",
+    alignContent: "center",
+    justifyItems: "end",
+    gap: "2px",
+    paddingRight: "8px",
+    borderRadius: "14px",
+    color: lightThemeTokens.textStrong,
+    backgroundColor: lightThemeTokens.surfaceGhost,
+  },
+  stringNumber: {
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "11px",
+    letterSpacing: "0.16em",
+    color: lightThemeTokens.textKicker,
+  },
+  stringPitch: {
+    fontSize: "14px",
+    fontWeight: 600,
+  },
+  cell: {
+    minHeight: "58px",
+  },
+  marker: {
+    display: "grid",
+    placeItems: "center",
+    minHeight: "58px",
+    padding: "8px 10px",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: lightThemeTokens.borderFaint,
+    borderRadius: "16px",
+    backgroundColor: lightThemeTokens.surfacePanel,
+    boxShadow: lightShadowTokens.marker,
+    transitionProperty: "transform, box-shadow, border-color, background-color, opacity",
+    transitionDuration: "160ms",
+  },
+  activeMarker: {
+    color: lightThemeTokens.textStrong,
+    transform: "translateY(-1px)",
+    borderColor: lightThemeTokens.borderSoft,
+  },
+  inactiveMarker: {
+    color: lightThemeTokens.textSubtle,
+    opacity: 0.62,
+    boxShadow: "none",
+  },
+  markerContent: {
+    display: "grid",
+    justifyItems: "center",
+    gap: "3px",
+    textAlign: "center",
+  },
+  markerDegree: {
+    fontSize: "14px",
+    fontWeight: 600,
+    lineHeight: 1.05,
+  },
+  markerSolfege: {
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "10px",
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
+    lineHeight: 1,
+  },
+  markerGhost: {
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "12px",
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    lineHeight: 1,
+  },
+});

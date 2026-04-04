@@ -1,3 +1,12 @@
+import * as stylex from "@stylexjs/stylex";
+
+import { AppShell } from "./app/AppShell";
+import { lightColorTheme, lightFontTheme, lightShadowTheme } from "./ui/styles/tokens.stylex";
+
 export function App() {
-  return <h1>Guitar Fretboard Trainer</h1>
+  return (
+    <div {...stylex.props(lightColorTheme, lightFontTheme, lightShadowTheme)}>
+      <AppShell />
+    </div>
+  );
 }
