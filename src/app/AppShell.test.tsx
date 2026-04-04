@@ -21,15 +21,14 @@ describe("AppShell", () => {
   });
 
   it("updates the selected key and scale in visible output immediately", () => {
-    const { container } = render(<AppShell />);
+    render(<AppShell />);
 
-    fireEvent.change(container.querySelector("#key-select") as HTMLSelectElement, {
-      target: { value: "Db" },
-    });
-    fireEvent.change(container.querySelector("#scale-select") as HTMLSelectElement, {
-      target: { value: "minorPentatonic" },
-    });
+    fireEvent.click(screen.getAllByTestId("key-select")[0] as HTMLElement);
+    fireEvent.click(screen.getByRole("option", { name: "Db" }));
+    fireEvent.click(screen.getAllByTestId("scale-select")[0] as HTMLElement);
+    fireEvent.click(screen.getByRole("option", { name: /minor pentatonic/i }));
 
-    expect(screen.getAllByText("Db Minor Pentatonic").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Db").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Minor Pentatonic").length).toBeGreaterThan(0);
   });
 });
