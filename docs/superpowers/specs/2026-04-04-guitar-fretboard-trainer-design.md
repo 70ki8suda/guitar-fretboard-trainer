@@ -71,7 +71,7 @@ The initial release targets the core learning loop: select a key and scale, then
 
 The app must allow the user to select the current key from explicit key spellings. Enharmonic pairs are treated as different keys when they imply different spelling policies.
 
-Examples:
+v1 key whitelist:
 
 - C
 - C#
@@ -90,9 +90,27 @@ Examples:
 - A#
 - Bb
 - B
-- Cb if later needed
 
-For v1, the selectable list should cover common major and minor practice keys and keep `C#` and `Db` separate.
+Explicitly out of scope for v1:
+
+- Cb
+- Fb
+- E#
+- B#
+
+The selected key object must carry an explicit accidental policy:
+
+- `sharp`: prefer sharp-oriented chromatic spelling and movable-do syllables
+- `flat`: prefer flat-oriented chromatic spelling and movable-do syllables
+- `natural`: use natural spellings unless chromatic alteration is required
+
+v1 accidental policy map:
+
+- `flat`: F, Bb, Eb, Ab, Db, Gb
+- `sharp`: G, D, A, E, B, F#, C#, D#, A#
+- `natural`: C
+
+This whitelist is authoritative for v1 and must be the basis for tests.
 
 ### 2. Scale Selection
 
@@ -110,6 +128,17 @@ Each scale definition must include:
 - semitone intervals from the tonic
 - degree labels
 - enough metadata to support future chord-tone filtering
+
+v1 scale definitions:
+
+| Scale | Semitone Intervals | Degree Labels | Marker Labels |
+|---|---|---|---|
+| Major | 0, 2, 4, 5, 7, 9, 11 | 1, 2, 3, 4, 5, 6, 7 | always show both degree and movable-do |
+| Natural Minor | 0, 2, 3, 5, 7, 8, 10 | 1, 2, b3, 4, 5, b6, b7 | always show both degree and movable-do |
+| Major Pentatonic | 0, 2, 4, 7, 9 | 1, 2, 3, 5, 6 | always show both degree and movable-do |
+| Minor Pentatonic | 0, 3, 5, 7, 10 | 1, b3, 4, 5, b7 | always show both degree and movable-do |
+
+For pentatonic scales, omitted degrees are not rendered as placeholders on fret markers. The legend should show only the degrees present in the selected scale.
 
 ### 3. Fretboard Display
 
@@ -186,7 +215,30 @@ The chromatic movable-do set should support at least:
 - Li / Te
 - Ti
 
-The displayed form must align with the chosen key spelling policy. Flat-oriented keys should prefer flat-oriented interpretations where applicable.
+Displayed syllables must be resolved deterministically from the selected key policy:
+
+- `sharp` keys use `Di, Ri, Fi, Si, Li` for altered ascending/chromatic labels
+- `flat` keys use `Ra, Me, Se, Le, Te` for altered descending/flat labels
+- `natural` keys use unaltered syllables for in-scale tones and default to sharp-form chromatic labels when a non-diatonic label is needed in future extensions
+
+For v1 scale tones, the expected movable-do output is:
+
+| Degree | Sharp/Natural Form | Flat Form |
+|---|---|---|
+| 1 | Do | Do |
+| b2 | Di | Ra |
+| 2 | Re | Re |
+| b3 | Ri | Me |
+| 3 | Mi | Mi |
+| 4 | Fa | Fa |
+| #4 / b5 | Fi | Se |
+| 5 | So | So |
+| b6 | Si | Le |
+| 6 | La | La |
+| b7 | Li | Te |
+| 7 | Ti | Ti |
+
+For v1, only degree labels that appear in the selected scale need to be materialized on markers and in the legend.
 
 ## UX and Screen Design
 
@@ -279,6 +331,58 @@ This layer should expose pure functions so it can be tested without React render
 
 - `src/ui/`
   Contains React components for controls, legend, markers, and fretboard layout.
+
+### Core Function Contracts
+
+The music layer should expose a small set of pure functions with explicit ownership boundaries:
+
+```ts
+type KeyId =
+  | "C" | "C#" | "Db" | "D" | "D#" | "Eb" | "E" | "F"
+  | "F#" | "Gb" | "G" | "G#" | "Ab" | "A" | "A#" | "Bb" | "B"
+
+type ScaleId = "major" | "naturalMinor" | "majorPentatonic" | "minorPentatonic"
+
+type AccidentalPolicy = "sharp" | "flat" | "natural"
+
+type SelectedKey = {
+  id: KeyId
+  tonicPitchClass: number
+  accidentalPolicy: AccidentalPolicy
+}
+
+type ScaleDefinition = {
+  id: ScaleId
+  intervals: number[]
+  degreeLabels: string[]
+}
+
+type ActiveTone = {
+  pitchClass: number
+  intervalFromTonic: number
+  degreeLabel: string
+  solfegeLabel: string
+  colorToken: string
+}
+
+function getSelectedKey(keyId: KeyId): SelectedKey
+function getScaleDefinition(scaleId: ScaleId): ScaleDefinition
+function getScaleTones(key: SelectedKey, scale: ScaleDefinition): ActiveTone[]
+function getFretPositionDisplay(
+  openStringPitchClass: number,
+  fret: number,
+  key: SelectedKey,
+  scale: ScaleDefinition,
+): FretPositionDisplay
+```
+
+Ownership rules:
+
+- `keys.ts` owns `KeyId`, `SelectedKey`, and `getSelectedKey`
+- `scales.ts` owns `ScaleId`, `ScaleDefinition`, and `getScaleDefinition`
+- `solfege.ts` owns interval-to-syllable resolution by `AccidentalPolicy`
+- `pitch.ts` owns pitch-class arithmetic only
+- `fretboard.ts` owns physical string/fret mapping and composes the other modules to produce `FretPositionDisplay`
 
 ### Data Model
 
