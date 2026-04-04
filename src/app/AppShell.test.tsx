@@ -38,4 +38,21 @@ describe("AppShell", () => {
     expect(screen.getAllByText("Db").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Minor Pentatonic").length).toBeGreaterThan(0);
   });
+
+  it("renders the fretboard with the first string above the sixth string", () => {
+    render(<AppShell />);
+
+    const stringLabels = screen
+      .getAllByText(/^String [1-6]$/)
+      .map((element) => element.textContent);
+
+    expect(stringLabels.slice(0, 6)).toEqual([
+      "String 1",
+      "String 2",
+      "String 3",
+      "String 4",
+      "String 5",
+      "String 6",
+    ]);
+  });
 });

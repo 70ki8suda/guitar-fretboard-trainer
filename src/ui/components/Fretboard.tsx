@@ -15,6 +15,7 @@ type FretboardProps = {
 };
 
 const fretNumbers = Array.from({ length: 22 }, (_, index) => index);
+const displayedStrings = [...STANDARD_TUNING_STRINGS].reverse();
 
 export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
   return (
@@ -22,7 +23,7 @@ export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
       <header {...stylex.props(fretboardStyles.panelHeader)}>
         <h2 {...stylex.props(fretboardStyles.panelTitle)}>Fretboard</h2>
         <p {...stylex.props(fretboardStyles.panelBody)}>
-          Standard tuning, strings low to high, frets 0 to 21.
+          Standard tuning, strings high to low, frets 0 to 21.
         </p>
       </header>
 
@@ -37,7 +38,11 @@ export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
             ))}
           </div>
 
-          {STANDARD_TUNING_STRINGS.map((label, stringIndex) => {
+          {displayedStrings.map((label) => {
+            const stringIndex = STANDARD_TUNING_STRINGS.findIndex(
+              (openString) => openString.number === label.number,
+            );
+
             return (
               <div key={label.number} {...stylex.props(fretboardStyles.stringRow)}>
                 <div {...stylex.props(fretboardStyles.stringLabel)}>
