@@ -131,6 +131,14 @@ export const fretboardStyles = stylex.create({
     textTransform: "uppercase",
     lineHeight: 1,
   },
+  markerChordRole: {
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "10px",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    lineHeight: 1,
+    color: lightThemeTokens.textPrimary,
+  },
   markerGhost: {
     fontFamily: lightThemeTokens.fontMono,
     fontSize: "12px",

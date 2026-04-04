@@ -255,7 +255,7 @@ export const controlStyles = stylex.create({
   },
   summaryItem: {
     display: "grid",
-    gridTemplateColumns: "auto minmax(0, 1fr)",
+    gridTemplateColumns: "auto minmax(0, 1fr) auto",
     alignItems: "center",
     gap: "12px",
     minHeight: "40px",
@@ -283,5 +283,12 @@ export const controlStyles = stylex.create({
     letterSpacing: "0.12em",
     textTransform: "uppercase",
     color: lightThemeTokens.textSubtle,
+  },
+  summaryChordRole: {
+    fontFamily: lightThemeTokens.fontMono,
+    fontSize: "11px",
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    color: lightThemeTokens.textKicker,
   },
 });

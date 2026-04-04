@@ -9,8 +9,8 @@ describe("AppShell", () => {
 
     expect(screen.getByRole("banner", { name: /app header/i })).toBeTruthy();
     expect(screen.getByRole("heading", { name: /guitar fretboard trainer/i })).toBeTruthy();
-    expect(screen.getByRole("button", { name: /scale tones/i })).toBeTruthy();
-    expect(screen.getByRole("button", { name: /chord tones/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Scale" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Chord" })).toBeTruthy();
     expect(screen.getByRole("button", { name: /both/i })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Fretboard", level: 2 })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Scale summary", level: 2 })).toBeTruthy();
@@ -61,5 +61,17 @@ describe("AppShell", () => {
 
     const summary = screen.getAllByRole("region", { name: /scale summary/i })[0];
     expect(summary.querySelectorAll("[data-tone-swatch]").length).toBeGreaterThan(0);
+  });
+
+  it("lets the user choose chord overlay controls", () => {
+    render(<AppShell />);
+
+    fireEvent.click(screen.getAllByTestId("chord-root-select")[0] as HTMLElement);
+    fireEvent.click(screen.getAllByRole("option", { name: "D" })[0] as HTMLElement);
+    fireEvent.click(screen.getAllByTestId("chord-quality-select")[0] as HTMLElement);
+    fireEvent.click(screen.getByRole("option", { name: "m7" }));
+    fireEvent.click(screen.getAllByRole("button", { name: "Chord" })[0] as HTMLElement);
+
+    expect(screen.getAllByText("R").length).toBeGreaterThan(0);
   });
 });

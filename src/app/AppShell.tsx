@@ -26,13 +26,24 @@ export function AppShell() {
   const {
     selectedKeyId,
     selectedScaleId,
+    selectedChordRootId,
+    selectedChordQualityId,
+    selectedDisplayMode,
     selectedKey,
     selectedScale,
+    selectedChordRoot,
+    selectedChordQuality,
     keyOptions,
     scaleOptions,
+    chordRootOptions,
+    chordQualityOptions,
+    displayModeOptions,
     summaryEntries,
     setSelectedKeyId,
     setSelectedScaleId,
+    setSelectedChordRootId,
+    setSelectedChordQualityId,
+    setSelectedDisplayMode,
   } = useFretboardAppState();
 
   const selectedScaleLabel = formatScaleLabel(selectedScaleId);
@@ -80,6 +91,20 @@ export function AppShell() {
             onChange={setSelectedScaleId}
             testId="scale-select"
           />
+          <AppSelect
+            label="Chord Root"
+            value={selectedChordRootId}
+            options={chordRootOptions}
+            onChange={setSelectedChordRootId}
+            testId="chord-root-select"
+          />
+          <AppSelect
+            label="Chord Quality"
+            value={selectedChordQualityId}
+            options={chordQualityOptions}
+            onChange={setSelectedChordQualityId}
+            testId="chord-quality-select"
+          />
         </div>
 
         <div
@@ -92,56 +117,42 @@ export function AppShell() {
             marginTop: "18px",
           }}
         >
-          <button
-            type="button"
-            {...stylex.props(controlStyles.iconButton)}
-            style={{
-              minHeight: "38px",
-              padding: "0 12px",
-              borderRadius: "999px",
-              border: "1px solid rgba(148, 106, 59, 0.22)",
-              backgroundColor: "rgba(255, 250, 244, 0.86)",
-              color: "#201811",
-            }}
-          >
-            Scale tones
-          </button>
-          <button
-            type="button"
-            {...stylex.props(controlStyles.iconButton)}
-            style={{
-              minHeight: "38px",
-              padding: "0 12px",
-              borderRadius: "999px",
-              border: "1px solid rgba(148, 106, 59, 0.22)",
-              backgroundColor: "rgba(255, 250, 244, 0.86)",
-              color: "#201811",
-            }}
-          >
-            Chord tones
-          </button>
-          <button
-            type="button"
-            {...stylex.props(controlStyles.iconButton)}
-            style={{
-              minHeight: "38px",
-              padding: "0 12px",
-              borderRadius: "999px",
-              border: "1px solid rgba(148, 106, 59, 0.22)",
-              backgroundColor: "rgba(255, 250, 244, 0.86)",
-              color: "#201811",
-            }}
-          >
-            Both
-          </button>
+          {displayModeOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setSelectedDisplayMode(option.value)}
+              {...stylex.props(controlStyles.iconButton)}
+              style={{
+                minHeight: "38px",
+                padding: "0 12px",
+                borderRadius: "999px",
+                border: "1px solid rgba(148, 106, 59, 0.22)",
+                backgroundColor:
+                  selectedDisplayMode === option.value
+                    ? "rgba(46, 142, 163, 0.16)"
+                    : "rgba(255, 250, 244, 0.86)",
+                color: "#201811",
+              }}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
       </section>
 
-      <Fretboard selectedKey={selectedKey} selectedScale={selectedScale} />
+      <Fretboard
+        selectedKey={selectedKey}
+        selectedScale={selectedScale}
+        selectedChordRoot={selectedChordRoot}
+        selectedChordQuality={selectedChordQuality}
+        selectedDisplayMode={selectedDisplayMode}
+      />
 
       <ScaleSummary
         keyLabel={selectedKeyId}
         scaleLabel={selectedScaleLabel}
+        displayMode={selectedDisplayMode}
         tones={summaryEntries}
       />
     </div>

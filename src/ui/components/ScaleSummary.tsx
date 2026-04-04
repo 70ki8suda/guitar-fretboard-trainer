@@ -1,5 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
+import type { DisplayMode } from "../../app/useFretboardAppState";
 import { getDegreeColor } from "../../music/colors";
 import type { ActiveTone } from "../../music/fretboard";
 import { controlStyles } from "../styles/controls.stylex";
@@ -7,10 +8,11 @@ import { controlStyles } from "../styles/controls.stylex";
 type ScaleSummaryProps = {
   keyLabel: string;
   scaleLabel: string;
+  displayMode: DisplayMode;
   tones: ActiveTone[];
 };
 
-export function ScaleSummary({ keyLabel, scaleLabel, tones }: ScaleSummaryProps) {
+export function ScaleSummary({ keyLabel, scaleLabel, displayMode, tones }: ScaleSummaryProps) {
   return (
     <section {...stylex.props(controlStyles.summaryCard)} aria-label="Scale summary">
       <div {...stylex.props(controlStyles.legendHeader)}>
@@ -36,6 +38,9 @@ export function ScaleSummary({ keyLabel, scaleLabel, tones }: ScaleSummaryProps)
               <span {...stylex.props(controlStyles.summaryDegree)}>{tone.degreeLabel}</span>
               <span {...stylex.props(controlStyles.summarySolfege)}>{tone.solfegeLabel}</span>
             </span>
+            {displayMode !== "scale" && tone.chordToneRole ? (
+              <span {...stylex.props(controlStyles.summaryChordRole)}>{tone.chordToneRole}</span>
+            ) : null}
           </li>
         ))}
       </ul>

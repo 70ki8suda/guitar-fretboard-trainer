@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { useFretboardAppState } from "./useFretboardAppState";
 
 describe("useFretboardAppState", () => {
-  it("defaults to C major and exposes ordered scale tones for legend and summary", () => {
+  it("defaults to C major and exposes ordered scale tones for the summary", () => {
     const { result } = renderHook(() => useFretboardAppState());
 
     expect(result.current.selectedKeyId).toBe("C");
@@ -18,7 +18,7 @@ describe("useFretboardAppState", () => {
       "6",
       "7",
     ]);
-    expect(result.current.legendEntries.map((entry) => entry.degreeLabel)).toEqual([
+    expect(result.current.summaryEntries.map((entry) => entry.degreeLabel)).toEqual([
       "1",
       "2",
       "3",
@@ -62,7 +62,7 @@ describe("useFretboardAppState", () => {
       "5",
       "b7",
     ]);
-    expect(result.current.legendEntries.map((entry) => entry.degreeLabel)).toEqual([
+    expect(result.current.summaryEntries.map((entry) => entry.degreeLabel)).toEqual([
       "1",
       "b3",
       "4",
@@ -88,5 +88,22 @@ describe("useFretboardAppState", () => {
       "So",
       "Te",
     ]);
+  });
+
+  it("tracks chord overlay selections and exposes chord-role matches in the summary", () => {
+    const { result } = renderHook(() => useFretboardAppState());
+
+    act(() => {
+      result.current.setSelectedChordRootId("D");
+      result.current.setSelectedChordQualityId("m7");
+      result.current.setSelectedDisplayMode("both");
+    });
+
+    expect(result.current.selectedChordRootId).toBe("D");
+    expect(result.current.selectedChordQualityId).toBe("m7");
+    expect(result.current.selectedDisplayMode).toBe("both");
+    expect(
+      result.current.summaryEntries.find((tone) => tone.degreeLabel === "2")?.chordToneRole,
+    ).toBe("R");
   });
 });

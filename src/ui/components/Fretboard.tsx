@@ -1,8 +1,10 @@
 import * as stylex from "@stylexjs/stylex";
 
+import type { DisplayMode } from "../../app/useFretboardAppState";
 import {
   getFretPositionDisplay,
   STANDARD_TUNING_STRINGS,
+  type ChordDefinition,
   type SelectedKey,
   type ScaleDefinition,
 } from "../../music";
@@ -12,12 +14,21 @@ import { FretMarker } from "./FretMarker";
 type FretboardProps = {
   selectedKey: SelectedKey;
   selectedScale: ScaleDefinition;
+  selectedChordRoot: SelectedKey;
+  selectedChordQuality: ChordDefinition;
+  selectedDisplayMode: DisplayMode;
 };
 
 const fretNumbers = Array.from({ length: 22 }, (_, index) => index);
 const displayedStrings = [...STANDARD_TUNING_STRINGS].reverse();
 
-export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
+export function Fretboard({
+  selectedKey,
+  selectedScale,
+  selectedChordRoot,
+  selectedChordQuality,
+  selectedDisplayMode,
+}: FretboardProps) {
   return (
     <section {...stylex.props(fretboardStyles.panel)} aria-label="Fretboard panel">
       <header {...stylex.props(fretboardStyles.panelHeader)}>
@@ -52,11 +63,14 @@ export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
                 {fretNumbers.map((fret) => (
                   <div key={`${stringIndex}-${fret}`} {...stylex.props(fretboardStyles.cell)}>
                     <FretMarker
+                      displayMode={selectedDisplayMode}
                       display={getFretPositionDisplay(
                         stringIndex,
                         fret,
                         selectedKey,
                         selectedScale,
+                        selectedChordRoot,
+                        selectedChordQuality,
                       )}
                     />
                   </div>

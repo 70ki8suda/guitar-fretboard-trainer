@@ -1,4 +1,5 @@
 import { getDegreeColor } from "./colors";
+import type { ChordDefinition, ChordTone } from "./chords";
 import { normalizePitchClass } from "./pitch";
 import type { SelectedKey } from "./keys";
 import type { ScaleDefinition } from "./scales";
@@ -21,6 +22,7 @@ export type ActiveTone = {
   degreeLabel: string;
   solfegeLabel: string;
   colorToken: string;
+  chordToneRole?: string;
 };
 
 export type FretPositionDisplay = {
@@ -29,9 +31,12 @@ export type FretPositionDisplay = {
   pitchClass: number;
   isValidPosition: boolean;
   inScale: boolean;
+  inChord?: boolean;
+  isOverlayTone?: boolean;
   degreeLabel?: string;
   solfegeLabel?: string;
   colorToken?: string;
+  chordToneRole?: string;
   futureTags?: {
     chordTone?: boolean;
   };
@@ -61,6 +66,32 @@ function getToneFromScale(
   };
 }
 
+function getToneFromChord(
+  chordRoot: SelectedKey | null,
+  chordDefinition: ChordDefinition | null,
+  pitchClass: number,
+): ChordTone | null {
+  if (!chordRoot || !chordDefinition) {
+    return null;
+  }
+
+  const intervalFromRoot = normalizePitchClass(pitchClass - chordRoot.tonicPitchClass);
+  const chordToneIndex = chordDefinition.intervals.findIndex(
+    (interval) => normalizePitchClass(interval) === intervalFromRoot,
+  );
+
+  if (chordToneIndex < 0) {
+    return null;
+  }
+
+  return {
+    pitchClass,
+    intervalFromRoot,
+    degreeLabel: chordDefinition.degreeLabels[chordToneIndex],
+    chordToneRole: chordDefinition.roleLabels[chordToneIndex],
+  };
+}
+
 export function getScaleTones(key: SelectedKey, scale: ScaleDefinition): ActiveTone[] {
   return scale.intervals.map((interval, index) => {
     const degreeLabel = scale.degreeLabels[index];
@@ -79,6 +110,8 @@ export function getFretPositionDisplay(
   fret: number,
   key: SelectedKey,
   scale: ScaleDefinition,
+  chordRoot: SelectedKey | null = null,
+  chordDefinition: ChordDefinition | null = null,
 ): FretPositionDisplay {
   const isValidPosition =
     Number.isInteger(stringIndex) &&
@@ -101,6 +134,7 @@ export function getFretPositionDisplay(
   const pitchClass = normalizePitchClass(STANDARD_TUNING_PITCH_CLASSES[stringIndex] + fret);
   const intervalFromTonic = normalizePitchClass(pitchClass - key.tonicPitchClass);
   const activeTone = getToneFromScale(key, scale, intervalFromTonic);
+  const chordTone = getToneFromChord(chordRoot, chordDefinition, pitchClass);
 
   if (!activeTone) {
     return {
@@ -109,6 +143,9 @@ export function getFretPositionDisplay(
       pitchClass,
       isValidPosition: true,
       inScale: false,
+      inChord: chordTone !== null,
+      isOverlayTone: chordTone !== null,
+      chordToneRole: chordTone?.chordToneRole,
     };
   }
 
@@ -120,9 +157,12 @@ export function getFretPositionDisplay(
     pitchClass,
     isValidPosition: true,
     inScale: true,
+    inChord: chordTone !== null,
+    isOverlayTone: chordTone !== null,
     degreeLabel: activeTone.degreeLabel,
     solfegeLabel: activeTone.solfegeLabel,
     colorToken: activeTone.colorToken,
+    chordToneRole: chordTone?.chordToneRole,
     futureTags: {
       chordTone: scale.chordToneMask[degreeIndex] ?? false,
     },
