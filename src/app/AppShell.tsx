@@ -42,48 +42,58 @@ export function AppShell() {
   return (
     <div {...stylex.props(appShellStyles.appShell)}>
       <aside {...stylex.props(appShellStyles.sidebar)}>
-        <section {...stylex.props(appShellStyles.glassPanel, appShellStyles.brandCard)}>
-          <div {...stylex.props(appShellStyles.brandMark)} aria-hidden="true">
-            GF
-          </div>
-          <div>
-            <p {...stylex.props(appShellStyles.eyebrow)}>Fretboard practice console</p>
-            <h1 {...stylex.props(appShellStyles.heroTitle)}>Guitar Fretboard Trainer</h1>
-            <p {...stylex.props(controlStyles.cardBody)}>
-              Precision fretboard view with degree colors and movable-do labels.
-            </p>
-          </div>
-        </section>
-
-        <section {...stylex.props(appShellStyles.glassPanel, appShellStyles.sectionBlock)}>
-          <div {...stylex.props(appShellStyles.sectionHeading)}>
+        <header
+          aria-label="App header"
+          {...stylex.props(appShellStyles.glassPanel, appShellStyles.sectionBlock)}
+        >
+          <section {...stylex.props(appShellStyles.brandCard)}>
+            <div {...stylex.props(appShellStyles.brandMark)} aria-hidden="true">
+              GF
+            </div>
             <div>
-              <p {...stylex.props(appShellStyles.eyebrow)}>Selected state</p>
-              <h2 {...stylex.props(appShellStyles.sectionTitle)}>Header summary</h2>
+              <p {...stylex.props(appShellStyles.eyebrow)}>Fretboard practice console</p>
+              <h1 {...stylex.props(appShellStyles.heroTitle)}>Guitar Fretboard Trainer</h1>
+              <p {...stylex.props(controlStyles.cardBody)}>
+                Precision fretboard view with degree colors and movable-do labels.
+              </p>
             </div>
-          </div>
-          <p {...stylex.props(controlStyles.cardBody)}>
-            {selectedKeyId} {selectedScaleLabel}
-          </p>
-          <div {...stylex.props(controlStyles.summaryList)}>
-            <div {...stylex.props(controlStyles.summaryItem)}>
-              <span {...stylex.props(controlStyles.summaryTone)}>
-                <span {...stylex.props(controlStyles.summaryDegree)}>Selected key</span>
-                <span {...stylex.props(controlStyles.summarySolfege)}>{selectedKeyId}</span>
-              </span>
-              <span {...stylex.props(controlStyles.summaryMeta)}>
-                {selectedKey.accidentalPolicy}
-              </span>
+          </section>
+
+          <section
+            {...stylex.props(controlStyles.summaryCard)}
+            style={{
+              marginTop: "18px",
+            }}
+          >
+            <div {...stylex.props(appShellStyles.sectionHeading)}>
+              <div>
+                <p {...stylex.props(appShellStyles.eyebrow)}>Selected state</p>
+                <h2 {...stylex.props(appShellStyles.sectionTitle)}>Header summary</h2>
+              </div>
             </div>
-            <div {...stylex.props(controlStyles.summaryItem)}>
-              <span {...stylex.props(controlStyles.summaryTone)}>
-                <span {...stylex.props(controlStyles.summaryDegree)}>Selected scale</span>
-                <span {...stylex.props(controlStyles.summarySolfege)}>{selectedScaleLabel}</span>
-              </span>
-              <span {...stylex.props(controlStyles.summaryMeta)}>{selectedScale.id}</span>
+            <p {...stylex.props(controlStyles.cardBody)}>
+              {selectedKeyId} {selectedScaleLabel}
+            </p>
+            <div {...stylex.props(controlStyles.summaryList)}>
+              <div {...stylex.props(controlStyles.summaryItem)}>
+                <span {...stylex.props(controlStyles.summaryTone)}>
+                  <span {...stylex.props(controlStyles.summaryDegree)}>Selected key</span>
+                  <span {...stylex.props(controlStyles.summarySolfege)}>{selectedKeyId}</span>
+                </span>
+                <span {...stylex.props(controlStyles.summaryMeta)}>
+                  {selectedKey.accidentalPolicy}
+                </span>
+              </div>
+              <div {...stylex.props(controlStyles.summaryItem)}>
+                <span {...stylex.props(controlStyles.summaryTone)}>
+                  <span {...stylex.props(controlStyles.summaryDegree)}>Selected scale</span>
+                  <span {...stylex.props(controlStyles.summarySolfege)}>{selectedScaleLabel}</span>
+                </span>
+                <span {...stylex.props(controlStyles.summaryMeta)}>{selectedScale.id}</span>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </header>
 
         <section {...stylex.props(controlStyles.controlSurface, appShellStyles.sectionBlock)}>
           <div {...stylex.props(appShellStyles.sectionHeading)}>

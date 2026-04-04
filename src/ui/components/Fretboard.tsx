@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 
 import {
   getFretPositionDisplay,
-  STANDARD_TUNING_PITCH_CLASSES,
+  STANDARD_TUNING_STRINGS,
   type SelectedKey,
   type ScaleDefinition,
 } from "../../music";
@@ -15,15 +15,6 @@ type FretboardProps = {
 };
 
 const fretNumbers = Array.from({ length: 22 }, (_, index) => index);
-
-const stringLabels = [
-  { number: 6, pitch: "E" },
-  { number: 5, pitch: "A" },
-  { number: 4, pitch: "D" },
-  { number: 3, pitch: "G" },
-  { number: 2, pitch: "B" },
-  { number: 1, pitch: "E" },
-] as const;
 
 export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
   return (
@@ -46,9 +37,7 @@ export function Fretboard({ selectedKey, selectedScale }: FretboardProps) {
             ))}
           </div>
 
-          {STANDARD_TUNING_PITCH_CLASSES.map((_, stringIndex) => {
-            const label = stringLabels[stringIndex];
-
+          {STANDARD_TUNING_STRINGS.map((label, stringIndex) => {
             return (
               <div key={label.number} {...stylex.props(fretboardStyles.stringRow)}>
                 <div {...stylex.props(fretboardStyles.stringLabel)}>

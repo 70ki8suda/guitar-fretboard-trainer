@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { AppShell } from "./AppShell";
@@ -7,9 +7,11 @@ describe("AppShell", () => {
   it("renders the shell with controls, fretboard, legend, and summaries", () => {
     render(<AppShell />);
 
+    const header = screen.getByRole("banner", { name: /app header/i });
+
     expect(screen.getByRole("heading", { name: /guitar fretboard trainer/i })).toBeTruthy();
-    expect(screen.getByText("Selected key")).toBeTruthy();
-    expect(screen.getByText("Selected scale")).toBeTruthy();
+    expect(within(header).getByText("Selected key")).toBeTruthy();
+    expect(within(header).getByText("Selected scale")).toBeTruthy();
     expect(screen.getByRole("button", { name: /scale tones/i })).toBeTruthy();
     expect(screen.getByRole("button", { name: /chord tones/i })).toBeTruthy();
     expect(screen.getByRole("button", { name: /both/i })).toBeTruthy();
