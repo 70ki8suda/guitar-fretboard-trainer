@@ -128,6 +128,7 @@ Each scale definition must include:
 - semitone intervals from the tonic
 - degree labels
 - enough metadata to support future chord-tone filtering
+- a stable boolean mask for future chord-tone candidate tagging
 
 v1 scale definitions:
 
@@ -183,6 +184,25 @@ Suggested internal degree set:
 - 7
 
 The v1 legend should expose only the currently relevant labels, but the internal model should support the full set above for future chord-tone and mode features.
+
+v1 degree color tokens:
+
+| Degree | Color Token | Hex |
+|---|---|---|
+| 1 | `degreeRoot` | `#D94A4A` |
+| b2 / #1 | `degreeFlat2` | `#D97A3A` |
+| 2 | `degree2` | `#E0A43A` |
+| b3 / #2 | `degreeFlat3` | `#C9A227` |
+| 3 | `degree3` | `#A8B832` |
+| 4 | `degree4` | `#4FAF5B` |
+| #4 / b5 | `degreeSharp4` | `#2FA7A0` |
+| 5 | `degree5` | `#3E86D1` |
+| b6 / #5 | `degreeFlat6` | `#5C6FD6` |
+| 6 | `degree6` | `#7A59C8` |
+| b7 | `degreeFlat7` | `#B05BCB` |
+| 7 | `degree7` | `#D45AA0` |
+
+This palette is provisional in branding terms but normative for v1 implementation and tests.
 
 ### 6. Movable-Do Solfege
 
@@ -355,6 +375,7 @@ type ScaleDefinition = {
   id: ScaleId
   intervals: number[]
   degreeLabels: string[]
+  chordToneMask: boolean[]
 }
 
 type ActiveTone = {
@@ -365,11 +386,14 @@ type ActiveTone = {
   colorToken: string
 }
 
+const STANDARD_TUNING_PITCH_CLASSES = [4, 9, 2, 7, 11, 4] as const
+// string order is low 6th string to high 1st string: E A D G B E
+
 function getSelectedKey(keyId: KeyId): SelectedKey
 function getScaleDefinition(scaleId: ScaleId): ScaleDefinition
 function getScaleTones(key: SelectedKey, scale: ScaleDefinition): ActiveTone[]
 function getFretPositionDisplay(
-  openStringPitchClass: number,
+  stringIndex: number,
   fret: number,
   key: SelectedKey,
   scale: ScaleDefinition,
@@ -382,7 +406,7 @@ Ownership rules:
 - `scales.ts` owns `ScaleId`, `ScaleDefinition`, and `getScaleDefinition`
 - `solfege.ts` owns interval-to-syllable resolution by `AccidentalPolicy`
 - `pitch.ts` owns pitch-class arithmetic only
-- `fretboard.ts` owns physical string/fret mapping and composes the other modules to produce `FretPositionDisplay`
+- `fretboard.ts` owns standard tuning, string-order convention, physical string/fret mapping, and composition of the other modules into `FretPositionDisplay`
 
 ### Data Model
 
@@ -404,6 +428,29 @@ type FretPositionDisplay = {
 ```
 
 This keeps future features such as chord-tone emphasis additive instead of forcing a redesign.
+
+## Initial and Invalid State Handling
+
+### Default Initial State
+
+On first load, the app should initialize with:
+
+- key: `C`
+- scale: `major`
+
+This gives v1 a neutral and readable starting point.
+
+### Invalid State Rules
+
+If the app later accepts persisted values, query params, or route params, invalid values must not break rendering.
+
+Required fallback behavior:
+
+- unsupported key ID: fall back to `C`
+- unsupported scale ID: fall back to `major`
+- invalid string index or fret outside `0-21`: return an inactive display object and do not throw in UI render paths
+
+v1 does not need a dedicated error screen for invalid selections; safe fallback behavior is sufficient.
 
 ## Spelling Policy
 
