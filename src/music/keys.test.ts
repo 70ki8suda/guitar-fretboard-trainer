@@ -52,4 +52,17 @@ describe('getSelectedKey', () => {
   it('falls back to C for unsupported values', () => {
     expect(getSelectedKey('nope' as never).id).toBe('C')
   })
+
+  it('falls back to C for prototype-shaped values', () => {
+    expect(getSelectedKey('constructor' as never)).toMatchObject({
+      id: 'C',
+      tonicPitchClass: 0,
+      accidentalPolicy: 'natural',
+    })
+    expect(getSelectedKey('toString' as never)).toMatchObject({
+      id: 'C',
+      tonicPitchClass: 0,
+      accidentalPolicy: 'natural',
+    })
+  })
 })

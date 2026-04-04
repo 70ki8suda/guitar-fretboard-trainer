@@ -37,7 +37,7 @@ const scaleMap: Record<ScaleId, ScaleDefinition> = {
 }
 
 export function getScaleDefinition(scaleId: ScaleId | string | null | undefined): ScaleDefinition {
-  if (typeof scaleId === 'string' && scaleId in scaleMap) {
+  if (typeof scaleId === 'string' && Object.prototype.hasOwnProperty.call(scaleMap, scaleId)) {
     return scaleMap[scaleId as ScaleId]
   }
 

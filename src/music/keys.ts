@@ -49,7 +49,7 @@ const keyMap: Record<KeyId, SelectedKey> = {
 }
 
 export function getSelectedKey(keyId: KeyId | string | null | undefined): SelectedKey {
-  if (typeof keyId === 'string' && keyId in keyMap) {
+  if (typeof keyId === 'string' && Object.prototype.hasOwnProperty.call(keyMap, keyId)) {
     return keyMap[keyId as KeyId]
   }
 

@@ -49,4 +49,19 @@ describe('getScaleDefinition', () => {
       chordToneMask: [true, false, true, false, true, false, true],
     })
   })
+
+  it('falls back to major for prototype-shaped values', () => {
+    expect(getScaleDefinition('constructor' as never)).toMatchObject({
+      id: 'major',
+      intervals: [0, 2, 4, 5, 7, 9, 11],
+      degreeLabels: ['1', '2', '3', '4', '5', '6', '7'],
+      chordToneMask: [true, false, true, false, true, false, true],
+    })
+    expect(getScaleDefinition('toString' as never)).toMatchObject({
+      id: 'major',
+      intervals: [0, 2, 4, 5, 7, 9, 11],
+      degreeLabels: ['1', '2', '3', '4', '5', '6', '7'],
+      chordToneMask: [true, false, true, false, true, false, true],
+    })
+  })
 })
