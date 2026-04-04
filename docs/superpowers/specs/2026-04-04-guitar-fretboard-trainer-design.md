@@ -1,0 +1,384 @@
+# Guitar Fretboard Trainer Design
+
+## Summary
+
+This project is a web app for guitar improvisation practice. It helps users understand scale tones on the fretboard by showing:
+
+- positions of the selected scale tones on a standard 6-string guitar fretboard
+- degree labels relative to the selected key
+- movable-do solfege labels relative to the selected key
+- consistent color coding by degree
+
+The initial release targets the core learning loop: select a key and scale, then immediately see scale tones across the fretboard with both degree and movable-do labels.
+
+## Goals
+
+- Make fretboard scale-tone locations easy to inspect across the full neck
+- Reinforce degree awareness instead of shape memorization alone
+- Show movable-do solfege instead of fixed absolute note names
+- Preserve enharmonic spelling according to the selected key
+- Keep the implementation extensible for future chord-tone and mode support
+
+## Non-Goals
+
+- audio playback
+- TAB or fingering suggestions
+- alternate tunings
+- account or persistence features
+- mobile app packaging
+- exercise or quiz systems in v1
+
+## Product Scope
+
+### In Scope for v1
+
+- single-screen web app
+- key selection with separate sharp and flat spellings where relevant
+- scale selection
+- 6-string standard tuning fretboard rendering
+- fret range from open string through 21st fret
+- highlighting only tones that belong to the selected scale
+- simultaneous display of degree and movable-do solfege on each active position
+- stable degree-to-color legend
+- responsive updates when key or scale changes
+
+### Planned Extension Targets
+
+- chord-tone highlighting
+- mode support
+- display filters by fret region or position
+- note-label display variants
+- left-handed rendering
+
+## User Model
+
+### Target Users
+
+- beginner to intermediate guitar players
+- players learning scales for improvisation
+- players who want to understand interval function across the neck
+
+### Primary Use Cases
+
+- checking scale tones before practice
+- improvising over a backing track in a chosen key
+- comparing degree locations after changing key
+- understanding where target tones live across the fretboard
+
+## Functional Requirements
+
+### 1. Key Selection
+
+The app must allow the user to select the current key from explicit key spellings. Enharmonic pairs are treated as different keys when they imply different spelling policies.
+
+Examples:
+
+- C
+- C#
+- Db
+- D
+- D#
+- Eb
+- E
+- F
+- F#
+- Gb
+- G
+- G#
+- Ab
+- A
+- A#
+- Bb
+- B
+- Cb if later needed
+
+For v1, the selectable list should cover common major and minor practice keys and keep `C#` and `Db` separate.
+
+### 2. Scale Selection
+
+The app must support multiple scale definitions through a data-driven structure.
+
+Initial scales:
+
+- Major
+- Natural Minor
+- Major Pentatonic
+- Minor Pentatonic
+
+Each scale definition must include:
+
+- semitone intervals from the tonic
+- degree labels
+- enough metadata to support future chord-tone filtering
+
+### 3. Fretboard Display
+
+The app must render:
+
+- 6 strings
+- frets 0 through 21
+- standard tuning `E A D G B E`
+
+Each string/fret position must map to a pitch-class value and then to derived display metadata for the current key and scale.
+
+### 4. Scale-Tone Highlighting
+
+Only positions whose pitch class belongs to the selected scale should be emphasized.
+
+For each active position, the marker must show:
+
+- degree label
+- movable-do solfege label
+
+Inactive positions should either remain empty or visually subdued so the active scale map is easy to read.
+
+### 5. Degree Color Mapping
+
+The app must apply one consistent color per degree across the entire fretboard.
+
+This mapping should be implemented in a way that supports chromatic extensions later, not just the diatonic major-scale degrees.
+
+Suggested internal degree set:
+
+- 1
+- b2 / #1
+- 2
+- b3 / #2
+- 3
+- 4
+- #4 / b5
+- 5
+- b6 / #5
+- 6
+- b7
+- 7
+
+The v1 legend should expose only the currently relevant labels, but the internal model should support the full set above for future chord-tone and mode features.
+
+### 6. Movable-Do Solfege
+
+The label system must use movable-do, not fixed absolute note names.
+
+Rules:
+
+- the tonic of the selected key is always `Do`
+- labels are relative to the selected key
+- minor scales still treat the selected tonic as `Do`
+- solfege must follow the selected key spelling policy where enharmonic choices matter
+
+Examples:
+
+- in `C Major`, `E` displays as `Mi`
+- in `A Natural Minor`, `A` displays as `Do`
+
+The chromatic movable-do set should support at least:
+
+- Do
+- Di / Ra
+- Re
+- Ri / Me
+- Mi
+- Fa
+- Fi / Se
+- So
+- Si / Le
+- La
+- Li / Te
+- Ti
+
+The displayed form must align with the chosen key spelling policy. Flat-oriented keys should prefer flat-oriented interpretations where applicable.
+
+## UX and Screen Design
+
+## Single-Page Layout
+
+1. Header
+   - app title
+   - compact summary of selected key and scale
+
+2. Control Bar
+   - key selector
+   - scale selector
+   - reserved space for future filters such as `Scale tones`, `Chord tones`, and `Both`
+
+3. Legend
+   - color chips with degree labels
+   - visible mapping between degree and color
+
+4. Fretboard Area
+   - horizontal fretboard from open string to 21st fret
+   - one marker per active scale tone
+   - marker content: degree on the first line, movable-do on the second line
+
+5. Supplemental Summary
+   - current scale-tone list in order
+   - reserved room for future chord-tone emphasis or formula display
+
+## Interaction Design
+
+- changing key or scale must update the fretboard immediately
+- desktop-first layout is acceptable for v1
+- active markers must remain readable even when the neck is dense
+- colors cannot be the only source of meaning; the text label is also required
+
+## Technical Design
+
+### Stack
+
+- React
+- TypeScript
+- Vite+
+- pnpm
+- Vite+ built-in workflow commands: `vp install`, `vp dev`, `vp check`, `vp build`, `vp test`
+
+### Layered Architecture
+
+The codebase should separate `UI concerns` from `music-theory concerns`.
+
+#### UI Layer
+
+Responsibilities:
+
+- rendering controls
+- rendering the legend
+- rendering the fretboard grid
+- formatting the selected-state summary
+
+The UI layer should not directly encode note-spelling logic or scale membership rules.
+
+#### Music Theory Layer
+
+Responsibilities:
+
+- key metadata and spelling policy
+- pitch-class operations
+- scale interval definitions
+- degree labeling
+- movable-do labeling
+- fretboard position mapping
+- future chord-tone tagging
+
+This layer should expose pure functions so it can be tested without React rendering.
+
+### Proposed Module Boundaries
+
+- `src/music/keys.ts`
+  Defines selectable keys and sharp/flat spelling preferences.
+
+- `src/music/scales.ts`
+  Defines scale intervals, degree labels, and future extension metadata.
+
+- `src/music/solfege.ts`
+  Maps relative scale degrees or chromatic intervals to movable-do labels.
+
+- `src/music/pitch.ts`
+  Handles pitch-class math and enharmonic policy helpers.
+
+- `src/music/fretboard.ts`
+  Maps `string + fret` to pitch class and derived display data for the current state.
+
+- `src/ui/`
+  Contains React components for controls, legend, markers, and fretboard layout.
+
+### Data Model
+
+Each active fretboard position should expose a derived object similar to:
+
+```ts
+type FretPositionDisplay = {
+  stringIndex: number
+  fret: number
+  pitchClass: number
+  inScale: boolean
+  degreeLabel?: string
+  solfegeLabel?: string
+  colorToken?: string
+  futureTags?: {
+    chordTone?: boolean
+  }
+}
+```
+
+This keeps future features such as chord-tone emphasis additive instead of forcing a redesign.
+
+## Spelling Policy
+
+The project must not flatten everything to a single enharmonic spelling system.
+
+Instead:
+
+- `C#` and `Db` are separate selectable keys
+- the selected key determines whether sharp-oriented or flat-oriented spellings are preferred
+- movable-do output must follow that policy
+
+This decision is necessary to support musically coherent display in flat keys and to avoid mixing spellings that confuse the user.
+
+## Testing Strategy
+
+The most failure-prone logic is the music-theory layer, so v1 testing should focus there first.
+
+Minimum unit-test coverage:
+
+- key spelling policy selection
+- scale membership for each supported scale
+- movable-do output for representative sharp and flat keys
+- fretboard mapping for selected string/fret positions
+- consistency between degree label, solfege label, and color token
+
+UI testing can remain lightweight in v1 as long as the pure logic is well-covered.
+
+## Acceptance Criteria
+
+The implementation is acceptable when:
+
+- the user can select a key
+- the user can select a scale
+- the fretboard updates immediately after selection changes
+- only tones in the current scale are emphasized
+- each active position displays both degree and movable-do
+- the same degree uses the same color everywhere on the fretboard
+- the legend clearly explains the color mapping
+- flat-oriented keys preserve flat-oriented display policy
+
+## Risks and Mitigations
+
+### Risk: enharmonic confusion
+
+If pitch math is implemented without a spelling policy, the UI will produce musically inconsistent labels.
+
+Mitigation:
+
+- keep explicit key metadata
+- keep spelling policy in the music layer
+- test representative sharp and flat keys
+
+### Risk: future chord-tone support causes refactor churn
+
+If scale highlighting is hardcoded directly into the UI, later chord-tone support will require invasive rewrites.
+
+Mitigation:
+
+- keep display derivation in pure functions
+- include future tags in derived display metadata
+- reserve UI space for filter controls
+
+### Risk: unreadable dense fretboard
+
+Simultaneously showing degree and solfege can overcrowd the neck.
+
+Mitigation:
+
+- desktop-first layout in v1
+- compact marker styling
+- subdued treatment for non-scale tones
+
+## Implementation Direction
+
+The recommended implementation path is:
+
+1. scaffold a Vite+ React TypeScript app
+2. build and test the music-theory layer first
+3. build the single-screen UI around those pure functions
+4. validate with `vp check`, `vp test`, and `vp build`
+
+This keeps the initial product focused while preserving room for chord-tone and mode expansion.
