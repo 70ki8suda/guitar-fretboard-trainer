@@ -139,12 +139,12 @@ Each scale definition must include:
 
 v1 scale definitions:
 
-| Scale | Semitone Intervals | Degree Labels | Marker Labels |
-|---|---|---|---|
-| Major | 0, 2, 4, 5, 7, 9, 11 | 1, 2, 3, 4, 5, 6, 7 | always show both degree and movable-do |
-| Natural Minor | 0, 2, 3, 5, 7, 8, 10 | 1, 2, b3, 4, 5, b6, b7 | always show both degree and movable-do |
-| Major Pentatonic | 0, 2, 4, 7, 9 | 1, 2, 3, 5, 6 | always show both degree and movable-do |
-| Minor Pentatonic | 0, 3, 5, 7, 10 | 1, b3, 4, 5, b7 | always show both degree and movable-do |
+| Scale            | Semitone Intervals   | Degree Labels          | Marker Labels                          |
+| ---------------- | -------------------- | ---------------------- | -------------------------------------- |
+| Major            | 0, 2, 4, 5, 7, 9, 11 | 1, 2, 3, 4, 5, 6, 7    | always show both degree and movable-do |
+| Natural Minor    | 0, 2, 3, 5, 7, 8, 10 | 1, 2, b3, 4, 5, b6, b7 | always show both degree and movable-do |
+| Major Pentatonic | 0, 2, 4, 7, 9        | 1, 2, 3, 5, 6          | always show both degree and movable-do |
+| Minor Pentatonic | 0, 3, 5, 7, 10       | 1, b3, 4, 5, b7        | always show both degree and movable-do |
 
 For pentatonic scales, omitted degrees are not rendered as placeholders on fret markers. The legend should show only the degrees present in the selected scale.
 
@@ -194,20 +194,20 @@ The v1 legend should expose only the currently relevant labels, but the internal
 
 v1 degree color tokens:
 
-| Degree | Color Token | Hex |
-|---|---|---|
-| 1 | `degreeRoot` | `#D94A4A` |
-| b2 / #1 | `degreeFlat2` | `#D97A3A` |
-| 2 | `degree2` | `#E0A43A` |
-| b3 / #2 | `degreeFlat3` | `#C9A227` |
-| 3 | `degree3` | `#A8B832` |
-| 4 | `degree4` | `#4FAF5B` |
+| Degree  | Color Token    | Hex       |
+| ------- | -------------- | --------- |
+| 1       | `degreeRoot`   | `#D94A4A` |
+| b2 / #1 | `degreeFlat2`  | `#D97A3A` |
+| 2       | `degree2`      | `#E0A43A` |
+| b3 / #2 | `degreeFlat3`  | `#C9A227` |
+| 3       | `degree3`      | `#A8B832` |
+| 4       | `degree4`      | `#4FAF5B` |
 | #4 / b5 | `degreeSharp4` | `#2FA7A0` |
-| 5 | `degree5` | `#3E86D1` |
-| b6 / #5 | `degreeFlat6` | `#5C6FD6` |
-| 6 | `degree6` | `#7A59C8` |
-| b7 | `degreeFlat7` | `#B05BCB` |
-| 7 | `degree7` | `#D45AA0` |
+| 5       | `degree5`      | `#3E86D1` |
+| b6 / #5 | `degreeFlat6`  | `#5C6FD6` |
+| 6       | `degree6`      | `#7A59C8` |
+| b7      | `degreeFlat7`  | `#B05BCB` |
+| 7       | `degree7`      | `#D45AA0` |
 
 This palette is provisional in branding terms but normative for v1 implementation and tests.
 
@@ -250,20 +250,20 @@ Displayed syllables must be resolved deterministically from the selected key pol
 
 For v1 scale tones, the expected movable-do output is:
 
-| Degree | Sharp/Natural Form | Flat Form |
-|---|---|---|
-| 1 | Do | Do |
-| b2 | Di | Ra |
-| 2 | Re | Re |
-| b3 | Ri | Me |
-| 3 | Mi | Mi |
-| 4 | Fa | Fa |
-| #4 / b5 | Fi | Se |
-| 5 | So | So |
-| b6 | Si | Le |
-| 6 | La | La |
-| b7 | Li | Te |
-| 7 | Ti | Ti |
+| Degree  | Sharp/Natural Form | Flat Form |
+| ------- | ------------------ | --------- |
+| 1       | Do                 | Do        |
+| b2      | Di                 | Ra        |
+| 2       | Re                 | Re        |
+| b3      | Ri                 | Me        |
+| 3       | Mi                 | Mi        |
+| 4       | Fa                 | Fa        |
+| #4 / b5 | Fi                 | Se        |
+| 5       | So                 | So        |
+| b6      | Si                 | Le        |
+| 6       | La                 | La        |
+| b7      | Li                 | Te        |
+| 7       | Ti                 | Ti        |
 
 For v1, only degree labels that appear in the selected scale need to be materialized on markers and in the legend.
 
@@ -418,46 +418,61 @@ The music layer should expose a small set of pure functions with explicit owners
 
 ```ts
 type KeyId =
-  | "C" | "C#" | "Db" | "D" | "D#" | "Eb" | "E" | "F"
-  | "F#" | "Gb" | "G" | "G#" | "Ab" | "A" | "A#" | "Bb" | "B"
+  | "C"
+  | "C#"
+  | "Db"
+  | "D"
+  | "D#"
+  | "Eb"
+  | "E"
+  | "F"
+  | "F#"
+  | "Gb"
+  | "G"
+  | "G#"
+  | "Ab"
+  | "A"
+  | "A#"
+  | "Bb"
+  | "B";
 
-type ScaleId = "major" | "naturalMinor" | "majorPentatonic" | "minorPentatonic"
+type ScaleId = "major" | "naturalMinor" | "majorPentatonic" | "minorPentatonic";
 
-type AccidentalPolicy = "sharp" | "flat" | "natural"
+type AccidentalPolicy = "sharp" | "flat" | "natural";
 
 type SelectedKey = {
-  id: KeyId
-  tonicPitchClass: number
-  accidentalPolicy: AccidentalPolicy
-}
+  id: KeyId;
+  tonicPitchClass: number;
+  accidentalPolicy: AccidentalPolicy;
+};
 
 type ScaleDefinition = {
-  id: ScaleId
-  intervals: number[]
-  degreeLabels: string[]
-  chordToneMask: boolean[]
-}
+  id: ScaleId;
+  intervals: number[];
+  degreeLabels: string[];
+  chordToneMask: boolean[];
+};
 
 type ActiveTone = {
-  pitchClass: number
-  intervalFromTonic: number
-  degreeLabel: string
-  solfegeLabel: string
-  colorToken: string
-}
+  pitchClass: number;
+  intervalFromTonic: number;
+  degreeLabel: string;
+  solfegeLabel: string;
+  colorToken: string;
+};
 
-const STANDARD_TUNING_PITCH_CLASSES = [4, 9, 2, 7, 11, 4] as const
+const STANDARD_TUNING_PITCH_CLASSES = [4, 9, 2, 7, 11, 4] as const;
 // string order is low 6th string to high 1st string: E A D G B E
 
-function getSelectedKey(keyId: KeyId): SelectedKey
-function getScaleDefinition(scaleId: ScaleId): ScaleDefinition
-function getScaleTones(key: SelectedKey, scale: ScaleDefinition): ActiveTone[]
+function getSelectedKey(keyId: KeyId): SelectedKey;
+function getScaleDefinition(scaleId: ScaleId): ScaleDefinition;
+function getScaleTones(key: SelectedKey, scale: ScaleDefinition): ActiveTone[];
 function getFretPositionDisplay(
   stringIndex: number,
   fret: number,
   key: SelectedKey,
   scale: ScaleDefinition,
-): FretPositionDisplay
+): FretPositionDisplay;
 ```
 
 Ownership rules:
@@ -474,18 +489,18 @@ Each active fretboard position should expose a derived object similar to:
 
 ```ts
 type FretPositionDisplay = {
-  stringIndex: number
-  fret: number
-  pitchClass: number
-  isValidPosition: boolean
-  inScale: boolean
-  degreeLabel?: string
-  solfegeLabel?: string
-  colorToken?: string
+  stringIndex: number;
+  fret: number;
+  pitchClass: number;
+  isValidPosition: boolean;
+  inScale: boolean;
+  degreeLabel?: string;
+  solfegeLabel?: string;
+  colorToken?: string;
   futureTags?: {
-    chordTone?: boolean
-  }
-}
+    chordTone?: boolean;
+  };
+};
 ```
 
 This keeps future features such as chord-tone emphasis additive instead of forcing a redesign.
