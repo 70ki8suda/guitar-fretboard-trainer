@@ -84,7 +84,9 @@ const solfegeTable: Record<AccidentalPolicy, Record<SolfegeDegreeLabel, string>>
 
 export function getSolfegeLabel(degreeLabel: string, accidentalPolicy: AccidentalPolicy): string {
   const canonicalDegreeLabel =
-    degreeLabel in degreeAliases ? degreeAliases[degreeLabel] : (degreeLabel as SolfegeDegreeLabel);
+    Object.prototype.hasOwnProperty.call(degreeAliases, degreeLabel)
+      ? degreeAliases[degreeLabel]
+      : (degreeLabel as SolfegeDegreeLabel);
 
   return solfegeTable[accidentalPolicy][canonicalDegreeLabel];
 }
